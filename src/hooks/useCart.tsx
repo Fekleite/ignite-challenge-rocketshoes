@@ -58,7 +58,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
         setCart(newCartItem);
         localStorage.setItem('@RocketShoes:cart', JSON.stringify(newCartItem))
       } else {
-        const updatedCartItem = cart.map((product) => {
+        const updatedCart = cart.map((product) => {
           if(product.id === productId) {
             return {
               ...product,
@@ -69,8 +69,8 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
           return product;
         })
 
-        setCart(updatedCartItem)
-        localStorage.setItem('@RocketShoes:cart', JSON.stringify(updatedCartItem))
+        setCart(updatedCart)
+        localStorage.setItem('@RocketShoes:cart', JSON.stringify(updatedCart))
       }
     } catch {
       toast.error('Erro na adição do produto');
@@ -79,9 +79,12 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
 
   const removeProduct = (productId: number) => {
     try {
-      // TODO
+      const filteredCart = cart.filter((cartItem) => cartItem.id !== productId);
+
+      setCart(filteredCart)
+      localStorage.setItem('@RocketShoes:cart', JSON.stringify(filteredCart))
     } catch {
-      // TODO
+      toast.error('Erro na remoção do produto');
     }
   };
 
@@ -100,7 +103,7 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
         return;
       }
 
-      const updatedCartItem = cart.map((product) => {
+      const updatedCart= cart.map((product) => {
         if(product.id === productId) {
           return {
             ...product,
@@ -111,8 +114,8 @@ export function CartProvider({ children }: CartProviderProps): JSX.Element {
         return product;
       })
 
-      setCart(updatedCartItem)
-      localStorage.setItem('@RocketShoes:cart', JSON.stringify(updatedCartItem))
+      setCart(updatedCart)
+      localStorage.setItem('@RocketShoes:cart', JSON.stringify(updatedCart))
     } catch {
       toast.error('Erro na alteração de quantidade do produto');
     }
